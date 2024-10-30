@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efficient Data Stream Anomaly Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #336699;
+        }
+        #value {
+            font-size: 24px;
+            color: #444;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #336699;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #285580;
+        }
+        #plot {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Real-Time Data Stream with Anomaly Detection</h1>
+        <div id="value">Current Value: 0</div>
+        <img id="plot" src="/plot" alt="Real-Time Plot">
+        <button id="refreshButton">Refresh Plot</button>
+    </div>
+
+    <script>
+        function updatePlot() {
+            const img = document.getElementById('plot');
+            img.src = '/plot?' + new Date().getTime(); // Update image source to prevent caching
+
+            fetch('/latest_value')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('value').innerText = 'Current Value: ' + data;
+                });
+        }
+
+        setInterval(updatePlot, 2000);
+        document.getElementById('refreshButton').addEventListener('click', updatePlot);
+    </script>
+</body>
+</html>
